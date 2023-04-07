@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #0b4257;
+  height: 62px;
+}
+
+.navbar-shadow {
+  box-shadow: 0 10px 20px rgba(109, 114, 117, 0.1)
+}
+
+.navbar-brand {
+  margin-right: 5rem;
+}
+
+.img-fluid{
+  max-width: 45px;
+}
+

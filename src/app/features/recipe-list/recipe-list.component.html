@@ -1,0 +1,147 @@
+<div>
+  <div class="mb-2">
+    <h3>Filter recipes</h3>
+    <span>You must enter at least one nutritional value!</span>
+  </div>
+  <form [formGroup]="filterFormGroup">
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <input type="text" (keyup.enter)="submitButton.click()" class="form-control" formControlName="proteins" placeholder="Proteins"
+                 aria-label="Proteins" [ngClass]="{ 'is-invalid': proteins && proteins.invalid}">
+          <span class="input-group-text" >g</span>
+          <div *ngIf="proteins && proteins.invalid" class="invalid-feedback">
+            Please enter a valid positive integer!
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="input-group mb-3">
+          <input type="text" (keyup.enter)="submitButton.click()" class="form-control" formControlName="carbohydrates" placeholder="Carbohydrates"
+                 aria-label="Carbohydrates" [ngClass]="{ 'is-invalid': carbohydrates && carbohydrates.invalid}">
+          <span class="input-group-text" >g</span>
+          <div *ngIf="carbohydrates && carbohydrates.invalid" class="invalid-feedback">
+            Please enter a valid positive integer!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <input type="text" (keyup.enter)="submitButton.click()" class="form-control" formControlName="fats" placeholder="Fats" aria-label="Fats"
+                 [ngClass]="{ 'is-invalid': fats && fats.invalid}">
+          <span class="input-group-text">g</span>
+          <div *ngIf="fats && fats.invalid" class="invalid-feedback">
+            Please enter a valid positive integer!
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="input-group mb-3">
+          <input type="text" (keyup.enter)="submitButton.click()" class="form-control" formControlName="calories" placeholder="Calories"
+                 aria-label="Calories" [ngClass]="{ 'is-invalid': calories && calories.invalid}">
+          <span class="input-group-text">kcal</span>
+          <div *ngIf="calories && calories.invalid" class="invalid-feedback">
+            Please enter a valid positive integer!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-25">
+      <label for="customRange2" class="form-label">Deviation of values:</label>
+      <div class="d-flex">
+        <input type="range" class="form-range" formControlName="epsilon" min="0" max="100" id="customRange2">
+        <span class="flex-shrink-0 ">{{ filterFormGroup.get('epsilon')?.value }} %  </span>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-between">
+  <button #submitButton type="submit" class="mt-2" (click)="filterRecipes()"
+          [disabled]="isFormGroupNutrientsEmpty()||!filterFormGroup.valid"
+          [ngClass]="isFormGroupNutrientsEmpty()||!filterFormGroup.valid? 'btn btn-secondary': 'btn btn-primary'">Submit
+  </button>
+    <button (click)="loadInitialData()" class="btn">Refresh Recipes</button>
+  </div>
+</div>
+
+<hr>
+<div *ngIf="loading" class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div>
+
+
+  <div *ngIf="!loading && recipeList.length>0">
+    <div class="d-flex justify-content-between flex-wrap">
+
+      <div class="col-4">
+        <ng-select placeholder="Sort By" [items]="sortOptions" [(ngModel)]="selectedSortOption" [clearable]="false"
+                   [searchable]="false"
+                   class="sort" (ngModelChange)="sortRecipes()">
+        </ng-select>
+      </div>
+      <div class="d-flex justify-content-end">
+        <div class="form-check form-switch mt-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" [formControl]="isFavoriteOnly" [checked]="isFavoriteOnly.value">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Favorites only</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+      <div *ngFor="let recipe of recipeList | slice: (page-1) * pageSize : page * pageSize" class="card-container mt-4">
+
+        <div class="card-sl h-100 d-flex flex-column me-2">
+          <img [src]="createImageFromUint8Array(recipe.image)" class="border-bottom card-image-height"
+               [alt]=recipe.title>
+          <div>
+            <a class="card-favorite" (click)="toggleFavoriteStatus(recipe.id)"><i
+              [ngClass]="recipe['favorite']? 'bi bi-star-fill': 'bi bi-star'"></i></a>
+            <div class="card-heading overflow-auto">
+              {{recipe.title}}
+            </div>
+
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Calories: {{recipe.nutrients.calories}}kcal
+              </li>
+              <li class="list-group-item">
+                Proteins: {{recipe.nutrients.proteins}}g
+              </li>
+              <li class="list-group-item">
+                Carbohydrates: {{recipe.nutrients.carbohydrates}}g
+              </li>
+              <li class="list-group-item">
+                Fats: {{recipe.nutrients.fats}}g
+              </li>
+              <li class="list-group-item">
+                Portions: {{recipe.portions}} pieces
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="mt-auto">
+            <a href="/recipes/{{recipe.id}}" class="card-button">Details</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--Pagination-->
+    <div class="mt-4">
+      <ngb-pagination [pageSize]="pageSize" [collectionSize]="recipeList.length" [(page)]="page" aria-label="pagination"
+                      class="col-auto me-4"
+                      [maxSize]="10"></ngb-pagination>
+    </div>
+  </div>
+
+
+  <div *ngIf="!loading && recipeList.length===0" class="mt-3">
+    <em>No Recipes were found!</em>
+  </div>
+</div>

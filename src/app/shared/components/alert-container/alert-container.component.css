@@ -1,0 +1,25 @@
+
+frame {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(109, 114, 117, 0.15);
+  max-width: 400px;
+  z-index: 2000;
+}
+
+
+.bg-color-error {
+  background-color: #f6c5c5;
+}
+
+.bg-color-success {
+  background-color: #daf8e2;
+}
+
+.icon-hover {
+  cursor: pointer;
+}
+
+.alert-icon {
+  font-size: 2rem;
+}

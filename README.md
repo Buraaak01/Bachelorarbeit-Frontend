@@ -1,27 +1,28 @@
-# BachelorarbeitFrontend
+# Macro Fit
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
+Bachelorarbeit - UI der Anwendung in Angular
 
-## Development server
+## Voraussetzungen
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- NodeJS und NPM installiert ([Anleitung: Installation NodeJS & NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm))
+- Befehl `npm install` im Projektverzeichnis ausführen
 
-## Code scaffolding
+## Development
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- `ng serve` für lokale Entwicklung gegen lokale Spring Boot Rest API
+  - UI: `http://localhost:4200/` (App lädt neu bei Änderungen)
+  - Backend: `http://localhost:8080/`
+  - Konfiguration [config.json](src/assets/config/config.json)
 
-## Build
+## Integration von NgRx
+NgRx wird in dieser Anwendung für das State-Management verwendet. Die folgenden Ordner/Dateien sind mit NgRx verbunden:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* [src/app/ngrx-store](src/app/ngrx-store): Enthält den mit NgRx zusammenhängenden Code des Stores.
+* [src/app/ngrx-store/actions](src/app/ngrx-store/actions): Enthält die Action-Creator.
+* [src/app/ngrx-store/effects](src/app/ngrx-store/effects): Enthält die NgRx-Effekte.
+* [src/app/ngrx-store/reducer](src/app/ngrx-store/reducer): Enthält die Reducer, die den Anwendungsstatus verwalten.
+* [src/app/ngrx-store/selectors](src/app/ngrx-store/selectors): Enthält die Selector, die einen Teil des Anwendungsstatus auswählen und zurückgeben.
+* [src/app/ngrx-store/state](src/app/ngrx-store/state): In diesem Ordner befindet sich der Anwendungsstatus. Der Anwendungsstatus ist ein Objekt, das alle relevanten Daten der Anwendung enthält.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Integration von Bootstrap
+Bootstrap wird in dieser Anwendung für das Styling und das Layout verwendet. Die Bootstrap-CSS- und JavaScript-Dateien sind über die Datei [angular.json](angular.json) miteingebunden.

@@ -1,0 +1,6 @@
+.notification-position {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  z-index: 1000;
+}

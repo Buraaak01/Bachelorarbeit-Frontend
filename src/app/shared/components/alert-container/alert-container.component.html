@@ -1,0 +1,21 @@
+<ngb-toast
+  *ngFor="let alert of alertService.alerts"
+  [id]="alert.id"
+  class="frame rounded-4"
+  [ngClass]="alert.type"
+  [autohide]="alert.autohide"
+  [animation]="true"
+  (hidden)="alertService.remove(alert)"
+  (mouseenter)="alert.autohide = false"
+  (mouseleave)="alert.autohide = true"
+>
+  <span class="bi bi-x-lg float-end text-secondary icon-hover" (click)="alertService.remove(alert)"></span>
+
+  <div class="d-flex align-items-center text-break">
+    <div class="me-3">
+      <span class="bi alert-icon" [ngClass]="alert.iconStyle"></span>
+    </div>
+    {{ alert.message }}
+  </div>
+
+</ngb-toast>

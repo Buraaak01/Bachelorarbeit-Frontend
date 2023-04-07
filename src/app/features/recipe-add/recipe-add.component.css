@@ -1,0 +1,17 @@
+.ingredientButton{
+  font-size: 200%;
+}
+
+.bi{
+  color: #E26D5C
+}
+
+.submitButton{
+  background-color: #E26D5C;
+  border-color: #E26D5C;
+  color: #ffffff;
+}
+.submitButton:hover{
+  background-color: #e55a46;
+  border-color: #e55a46;
+}
